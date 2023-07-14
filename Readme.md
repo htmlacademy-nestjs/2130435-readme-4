@@ -1,7 +1,7 @@
 # Личный проект «Readme»
 
 * Студент: [Андрей Шитюк](https://up.htmlacademy.ru/nodejs-2/4/user/2130435).
-* Наставник: `Неизвестно`.
+* Наставник: [Юлия Корецкая](https://htmlacademy.ru/profile/id11886).
 
 ---
 
