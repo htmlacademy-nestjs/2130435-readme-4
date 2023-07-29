@@ -1,10 +1,11 @@
+import { RandomUUIDOptions } from "crypto";
 import { PhotoFormat } from "../..";
 
-type LikedBlogId = string;
-type SubscribeUserID = string;
+export type LikedBlogId = string;
+export type SubscribeUserID = string;
 
 export interface User {
-  _id: string;
+  _id?: string | RandomUUIDOptions;
   email: string;
   username: string;
   passwordHash: string;
