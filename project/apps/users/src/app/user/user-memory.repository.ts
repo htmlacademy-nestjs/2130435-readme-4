@@ -55,4 +55,25 @@ export class UserMemoryRepository implements CRUDRepository<UserEntity, string, 
   public async destroy(id: string): Promise<void> {
     delete this.repository[id];
   }
+
+  public async getFeed(id: string) {
+    return this.repository[id].feed
+  }
+
+  public async subcribe(id: string, userId: string) {
+    this.repository[id].subcribesCounter++;
+    this.repository[id].feed.push(userId);
+
+    return this.repository[id].feed;
+  }
+
+  public async unSubcribe(id: string, userId: string) {
+    this.repository[id].subcribesCounter--;
+    this.repository[id].feed = this.repository[id].feed.filter(
+      (user) => user !== userId
+    )
+
+    return this.repository[id].feed
+  }
+
 }
