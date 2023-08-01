@@ -1,21 +1,24 @@
 import { PhotoFormat } from "./photo-format.type";
 
-type BlogType = 'video' | 'text' | 'quote' | 'photo' | 'link';
-type BlogState = 'published' | 'draft';
+export type BlogType = 'video' | 'text' | 'quote' | 'photo' | 'link';
 
-interface BlogTemplate {
-  _id: string;
-  title: string;
+
+type userId = string;
+export type likesMap = Record<userId, true>
+
+export interface BlogTemplate {
+  _id?: string;
   authorId: string;
   creatorId: string;
   type: BlogType;
   tags: string[];
   createdAt: Date;
-  state: BlogState;
+  isPublished: boolean;
   publicAt: Date;
   updatedAt: Date;
   isRepost: boolean;
   likesCounter: number;
+  likes: likesMap
 }
 
 export interface VideoBlog extends BlogTemplate {
