@@ -1,4 +1,5 @@
 import { PhotoFormat } from "./photo-format.type";
+import { Comment } from "../comment/comment.interface";
 
 export type BlogType = 'video' | 'text' | 'quote' | 'photo' | 'link';
 
@@ -18,6 +19,7 @@ export interface BlogTemplate {
   updatedAt: Date;
   isRepost: boolean;
   likesCounter: number;
+  comments: Comment[];
   likes: likesMap
 }
 

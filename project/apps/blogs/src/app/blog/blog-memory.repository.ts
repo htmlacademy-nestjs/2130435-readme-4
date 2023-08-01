@@ -1,10 +1,11 @@
 import { CRUDRepository } from "@project/util/util-types";
 import { Blog } from "@project/shared/app-types";
 import { randomUUID } from "crypto";
-import { Injectable } from "@nestjs/common";
+import { ConflictException, Injectable } from "@nestjs/common";
 import { BlogEntity } from "./blog.entity";
-import { BlogQueryOptions, QUERY_STANDART_LIMIT, QUERY_START_PAGE } from "./blog.constant";
+import { BlogError, BlogQueryOptions, QUERY_STANDART_LIMIT, QUERY_START_PAGE } from "./blog.constant";
 import dayjs from "dayjs";
+import { CommentEntity } from "../comment/comment.entity";
 
 @Injectable()
 export class BlogMemoryRepository implements CRUDRepository<BlogEntity, string, Blog> {
@@ -91,6 +92,31 @@ public async indexSearch({limit = QUERY_STANDART_LIMIT, page = QUERY_START_PAGE,
     }
     this.repository[id].likesCounter--;
     delete this.repository[id].likes[userID];
+    return null
+  }
+
+  public async addComment(id: string, comment: CommentEntity) {
+    const entry = {
+      ...comment.toObject(), _id: randomUUID(),
+    }
+
+    this.repository[id].comments.push(entry);
+    return entry;
+  }
+
+  public async getComments(id: string) {
+    return await this.repository[id].comments
+  }
+
+  public async deleteComment(id: string,commentId, userID: string) {
+    const foundComment = this.repository[id].comments.find((comment) => comment._id === commentId);
+
+    if (foundComment.authorId === userID) {
+      return new ConflictException(BlogError.NoAccess)
+    }
+
+    this.repository[id].comments = this.repository[id].comments.filter((comment) => comment._id !== commentId);
+
     return null
   }
 
