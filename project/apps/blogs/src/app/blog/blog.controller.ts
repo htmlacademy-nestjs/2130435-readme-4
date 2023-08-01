@@ -8,7 +8,7 @@ import { BlogRdo } from "./RDO/index.rdo";
 import { HttpStatusCode } from "axios";
 
 @Controller('blogs')
-export class FeedController {
+export class BlogController {
   constructor(
     private readonly blogService: BlogService
   ) {}
