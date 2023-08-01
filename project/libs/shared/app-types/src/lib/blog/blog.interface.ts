@@ -11,7 +11,7 @@ export interface BlogTemplate {
   _id?: string;
   authorId: string;
   creatorId: string;
-  type: BlogType;
+  type?: BlogType;
   tags: string[];
   createdAt: Date;
   isPublished: boolean;

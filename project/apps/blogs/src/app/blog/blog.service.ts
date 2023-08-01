@@ -5,6 +5,7 @@ import { CreateBlogTypeDto } from "./DTO/index.dto";
 import { BlogEntity } from "./blog.entity";
 import dayjs from "dayjs";
 import { BlogError, BlogQueryOptions } from "./blog.constant";
+import { Blog } from "@project/shared/app-types";
 
 @Injectable()
 export class BlogService {
@@ -12,6 +13,7 @@ export class BlogService {
     private readonly blogRepository: BlogMemoryRepository
   ) {}
 
+  //TODO: подумать над типом
   public async create(type: BlogType, userID: string, body: CreateBlogTypeDto) {
     const newBlog = new BlogEntity({
       ...body,
@@ -25,7 +27,7 @@ export class BlogService {
       likesCounter: 0,
       likes: {},
       isPublished: true
-    });
+    } as Blog);
 
     //TODO: заделка на будущее
     switch (type) {
