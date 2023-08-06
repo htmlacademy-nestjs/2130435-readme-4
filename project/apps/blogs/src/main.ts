@@ -13,10 +13,10 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   const config = new DocumentBuilder()
-  .setTitle('The "Users" service')
-  .setDescription('User service API')
-  .setVersion('1.0')
-  .build();
+    .setTitle('The "Blogs" service')
+    .setDescription('Blog service API')
+    .setVersion('1.0')
+    .build();
 
   const globalPrefix = 'api';
   app.setGlobalPrefix(globalPrefix);
