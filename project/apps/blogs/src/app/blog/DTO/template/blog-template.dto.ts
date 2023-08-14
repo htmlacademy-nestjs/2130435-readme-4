@@ -1,5 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { BlogType, likesMap } from "libs/shared/app-types/src/lib/blog/blog.interface";
+import { BlogType, LikesMap } from "libs/shared/app-types/src/lib/blog/blog.interface";
 
 export class CreateBlogTemplateDto {
 
@@ -37,5 +37,5 @@ export class CreateBlogTemplateDto {
     description: 'Blog likes map',
     example: '{userId12321313: true, userId123ed2fsfsde: true}',
   })
-  likes: likesMap
+  likes: LikesMap
 }

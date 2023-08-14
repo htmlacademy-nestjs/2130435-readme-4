@@ -1,6 +1,6 @@
 import { Blog, PhotoFormat } from '@project/shared/app-types'
 import { Entity } from '@project/util/util-types'
-import { BlogType, likesMap } from 'libs/shared/app-types/src/lib/blog/blog.interface';
+import { BlogType, LikesMap } from 'libs/shared/app-types/src/lib/blog/blog.interface';
 
 export class BlogEntity extends Entity<Blog> {
   _id?: string;
@@ -13,7 +13,7 @@ export class BlogEntity extends Entity<Blog> {
   updatedAt: Date;
   isRepost: boolean;
   likesCounter: number;
-  likes: likesMap
+  likes: LikesMap
 
   //VIDEO
   title: string;

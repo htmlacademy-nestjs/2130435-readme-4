@@ -1,6 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { Expose } from "class-transformer";
-import { BlogType, likesMap } from "libs/shared/app-types/src/lib/blog/blog.interface";
+import { BlogType, LikesMap } from "libs/shared/app-types/src/lib/blog/blog.interface";
 
 export class BlogTemplateRdo {
 
@@ -79,5 +79,5 @@ export class BlogTemplateRdo {
     example: '{userId12321313: true, userId123ed2fsfsde: true}',
   })
   @Expose()
-  likes: likesMap
+  likes: LikesMap
 }
