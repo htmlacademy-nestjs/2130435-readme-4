@@ -1,15 +1,15 @@
 import { ConflictException, Injectable } from '@nestjs/common';
-import { UserMemoryRepository } from '../user/user-memory.repository';
 import dayjs from 'dayjs';
 import { UserEntity } from '../user/user.entity';
 import { AuthUserError } from './authentication.constant';
 import {LoginUserDto} from "./dto/login-user.dto";
 import {CreateUserDto} from "./dto/create-user.dto";
+import {UserMongoDBRepository} from "../user/user-mongodb.repository";
 
 @Injectable()
 export class AuthenticationService {
   constructor(
-    private readonly userRepository: UserMemoryRepository
+    private readonly userRepository: UserMongoDBRepository
   ) {}
 
   public async register(dto: CreateUserDto) {

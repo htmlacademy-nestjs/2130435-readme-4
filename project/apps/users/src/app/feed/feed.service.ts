@@ -1,15 +1,15 @@
 import { ConflictException, Injectable } from "@nestjs/common";
-import { UserMemoryRepository } from "../user/user-memory.repository";
 import { FeedUserError } from "./feed.constant";
+import {UserMongoDBRepository} from "../user/user-mongodb.repository";
 
 @Injectable()
 export class FeedService {
   constructor(
-    private readonly userRepository: UserMemoryRepository
+    private readonly userRepository: UserMongoDBRepository
   ) {}
 
   public async subcribe(id: string, userId: string) {
-    const addedUser = (await this.userRepository.getFeed(id)).includes(userId);
+    const addedUser = (await this.userRepository.getFeed(id)).feed.includes(userId);
 
     if (addedUser) {
       throw new ConflictException(FeedUserError.AlreadySubscribed);
@@ -20,7 +20,7 @@ export class FeedService {
   }
 
   public async unSubcribe(id: string, userId: string) {
-    const removedUser = (await this.userRepository.getFeed(id)).includes(userId);
+    const removedUser = (await this.userRepository.getFeed(id)).feed.includes(userId);
 
     if (!removedUser) {
       throw new ConflictException(FeedUserError.NotFound);
