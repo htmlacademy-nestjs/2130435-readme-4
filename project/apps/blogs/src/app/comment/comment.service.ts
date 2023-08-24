@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { BlogMemoryRepository } from "../blog/blog-memory.repository";
-import { createCommentDto } from "./DTO/create-comment.dto";
+import { createCommentDto } from "./dto/create-comment.dto";
 import dayjs from "dayjs";
 import { CommentEntity } from "./comment.entity";
 

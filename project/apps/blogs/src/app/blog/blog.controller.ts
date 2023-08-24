@@ -1,12 +1,12 @@
 import { Controller, Param, Post, Get, Headers, Body, Query, Delete, Put, HttpCode, HttpStatus } from "@nestjs/common";
 import { BlogService } from "./blog.service";
-import { CreateBlogTypeDto } from "./DTO/index.dto";
-import { BlogType } from "libs/shared/app-types/src/lib/blog/blog.interface";
+import { CreateBlogTypeDto } from "./dto/index.dto";
 import { BlogQueryOptions, MapTypeRdo } from "./blog.constant";
 import { fillObject } from '@project/util/util-core';
-import { BlogRdo } from "./RDO/index.rdo";
+import { BlogRdo } from "./rdo/index.rdo";
 import { HttpStatusCode } from "axios";
 import { ApiResponse, ApiTags } from "@nestjs/swagger";
+import {BlogType} from "../../../../../libs/shared/app-types/src/lib/blog/blog.interface";
 
 @ApiTags('blogs')
 @Controller('blogs')

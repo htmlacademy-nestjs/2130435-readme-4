@@ -1,7 +1,7 @@
 import { Body, Controller, Delete, Get, Headers, HttpCode, HttpStatus, Param, Post } from "@nestjs/common";
-import { createCommentDto } from "./DTO/create-comment.dto";
+import { createCommentDto } from "./dto/create-comment.dto";
 import { fillObject } from "@project/util/util-core";
-import { CommentRdo } from "./RDO/comment.rdo";
+import { CommentRdo } from "./rdo/comment.rdo";
 import { CommentService } from "./comment.service";
 import { HttpStatusCode } from "axios";
 import { ApiResponse, ApiTags } from "@nestjs/swagger";

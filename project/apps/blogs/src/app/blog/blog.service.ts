@@ -1,7 +1,7 @@
 import { ConflictException, Injectable } from "@nestjs/common";
 import { BlogMemoryRepository } from "./blog-memory.repository";
 import { BlogType } from "libs/shared/app-types/src/lib/blog/blog.interface";
-import { CreateBlogTypeDto } from "./DTO/index.dto";
+import { CreateBlogTypeDto } from "./dto/index.dto";
 import { BlogEntity } from "./blog.entity";
 import dayjs from "dayjs";
 import { BlogError, BlogQueryOptions } from "./blog.constant";

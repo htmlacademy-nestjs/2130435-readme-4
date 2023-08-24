@@ -4,8 +4,8 @@ import { Comment } from "../comment/comment.interface";
 export type BlogType = 'video' | 'text' | 'quote' | 'photo' | 'link';
 
 
-type userId = string;
-export type likesMap = Record<userId, true>
+type UserId = string;
+export type LikesMap = Record<UserId, true>
 
 export interface BlogTemplate {
   _id?: string;
@@ -20,7 +20,7 @@ export interface BlogTemplate {
   isRepost: boolean;
   likesCounter: number;
   comments: Comment[];
-  likes: likesMap
+  likes: LikesMap
 }
 
 export interface VideoBlog extends BlogTemplate {

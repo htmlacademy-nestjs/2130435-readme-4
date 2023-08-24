@@ -1,5 +1,5 @@
 import { BlogType } from "libs/shared/app-types/src/lib/blog/blog.interface";
-import { LinkBlogRdo, PhotoBlogRdo, QuoteBlogRdo, TextBlogRdo, VideoBlogRdo } from "./RDO/index.rdo";
+import { LinkBlogRdo, PhotoBlogRdo, QuoteBlogRdo, TextBlogRdo, VideoBlogRdo } from "./rdo/index.rdo";
 
 export enum BlogError {
   NotFound = 'Type not found',

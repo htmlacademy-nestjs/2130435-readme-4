@@ -1,15 +1,15 @@
 import { ConflictException, Injectable } from '@nestjs/common';
-import { UserMemoryRepository } from '../user/user-memory.repository';
-import { CreateUserDto } from '../user/DTO/create-user.dto';
 import dayjs from 'dayjs';
 import { UserEntity } from '../user/user.entity';
-import { LoginUserDto } from '../user/DTO/login-user.dto';
 import { AuthUserError } from './authentication.constant';
+import {LoginUserDto} from "./dto/login-user.dto";
+import {CreateUserDto} from "./dto/create-user.dto";
+import {UserMongoDBRepository} from "../user/user-mongodb.repository";
 
 @Injectable()
 export class AuthenticationService {
   constructor(
-    private readonly userRepository: UserMemoryRepository
+    private readonly userRepository: UserMongoDBRepository
   ) {}
 
   public async register(dto: CreateUserDto) {
@@ -32,10 +32,10 @@ export class AuthenticationService {
       likedBlogs: [],
     }
 
-    const userEntity = await new UserEntity(user)
-    userEntity.setPassword(password);
+    const userEntity = new UserEntity(user)
+    await userEntity.setPassword(password);
 
-    return this.userRepository.create(userEntity);
+    return await this.userRepository.create(userEntity);
   }
 
   public async verifyUser(dto: LoginUserDto) {
@@ -48,7 +48,7 @@ export class AuthenticationService {
     }
 
     const userEntity = new UserEntity(existUser);
-    if (await userEntity.comparePassword(password)) {
+    if (!await userEntity.comparePassword(password)) {
       throw new ConflictException(AuthUserError.PasswordWrong);
     }
 
