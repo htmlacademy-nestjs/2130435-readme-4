@@ -1,0 +1,72 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model PostVideo {
+  postId     Int      @id @default(autoincrement())
+  repost     Boolean  @default(false)
+  authorPost String
+  title      String   @default("")
+  link       String   @default("")
+  tags       String[] @default([])
+  createdAt  DateTime @default(now())
+  publishAt  DateTime @updatedAt
+  userId     String?
+}
+
+model PostText {
+  postId       Int      @id @default(autoincrement())
+  repost       Boolean  @default(false)
+  authorPost   String
+  title        String   @default("")
+  announcement String   @default("")
+  text         String   @default("")
+  tags         String[] @default([])
+  createdAt    DateTime @default(now())
+  publishAt    DateTime @updatedAt
+  userId       String?
+}
+
+model PostQuote {
+  postId     Int      @id @default(autoincrement())
+  repost     Boolean  @default(false)
+  authorPost String
+  text       String   @default("")
+  author     String   @default("")
+  tags       String[] @default([])
+  createdAt  DateTime @default(now())
+  publishAt  DateTime @updatedAt
+  userId     String?
+}
+
+model PostPhoto {
+  postId     Int      @id @default(autoincrement())
+  repost     Boolean  @default(false)
+  authorPost String
+  photo      String   @default("")
+  size       Int
+  tags       String[] @default([])
+  createdAt  DateTime @default(now())
+  publishAt  DateTime @updatedAt
+  userId     String?
+}
+
+model PostLink {
+  postId      Int      @id @default(autoincrement())
+  repost      Boolean  @default(false)
+  authorPost  String
+  link        String   @default("")
+  description String   @default("")
+  tags        String[] @default([])
+  createdAt   DateTime @default(now())
+  publishAt   DateTime @updatedAt
+  userId      String?
+}
