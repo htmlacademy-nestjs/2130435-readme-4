@@ -8,3 +8,5 @@ export * from './lib/user/user.interface';
 // Comment
 export * from './lib/comment/comment.interface';
 
+// File
+export * from './lib/file/file.interface';

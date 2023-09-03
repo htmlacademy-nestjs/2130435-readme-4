@@ -12,7 +12,6 @@ export class BlogEntity extends Entity<Blog> {
   publicAt: Date;
   updatedAt: Date;
   isRepost: boolean;
-  likesCounter: number;
   likes: LikesMap
 
   //VIDEO
