@@ -3,6 +3,7 @@
 
 generator client {
   provider = "prisma-client-js"
+  output   = "../../../../../node_modules/.prisma/client"
 }
 
 datasource db {
@@ -10,63 +11,94 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model Post {
+  postId     Int        @id @default(autoincrement()) @map("post_id")
+  repost     Boolean    @default(false)
+  authorPost String     @map("author_post")
+  tags       Tag[]
+  createdAt  DateTime   @default(now()) @map("created_at")
+  publishAt  DateTime   @updatedAt @map("publish_at")
+  userId     String?    @map("user_id")
+  like       Like[]
+  video      PostVideo?
+  text       PostText?
+  quote      PostQuote?
+  photo      PostPhoto?
+  link       PostLink?
+  comment    Comment[]
+
+  @@map("posts")
+}
+
+model Tag {
+  tagId Int    @id @default(autoincrement()) @map("tag_id")
+  title String
+  posts Post[]
+
+  @@map("tags")
+}
+
+model Like {
+  likeId Int     @id @default(autoincrement()) @map("like_id")
+  userId String? @map("user_id")
+  post   Post    @relation(fields: [likeId], references: [postId], onUpdate: Cascade, onDelete: Cascade)
+
+  @@map("likes")
+}
+
 model PostVideo {
-  postId     Int      @id @default(autoincrement())
-  repost     Boolean  @default(false)
-  authorPost String
-  title      String   @default("")
-  link       String   @default("")
-  tags       String[] @default([])
-  createdAt  DateTime @default(now())
-  publishAt  DateTime @updatedAt
-  userId     String?
+  postId Int    @id @default(autoincrement()) @map("post_id")
+  title  String @default("")
+  link   String @default("")
+  post   Post   @relation(fields: [postId], references: [postId], onDelete: Cascade, onUpdate: Cascade)
+
+  @@map("video_posts")
 }
 
 model PostText {
-  postId       Int      @id @default(autoincrement())
-  repost       Boolean  @default(false)
-  authorPost   String
-  title        String   @default("")
-  announcement String   @default("")
-  text         String   @default("")
-  tags         String[] @default([])
-  createdAt    DateTime @default(now())
-  publishAt    DateTime @updatedAt
-  userId       String?
+  postId       Int    @id @default(autoincrement()) @map("post_id")
+  title        String @default("")
+  announcement String @default("")
+  text         String @default("")
+  post         Post   @relation(fields: [postId], references: [postId], onDelete: Cascade, onUpdate: Cascade)
+
+  @@map("text_posts")
 }
 
 model PostQuote {
-  postId     Int      @id @default(autoincrement())
-  repost     Boolean  @default(false)
-  authorPost String
-  text       String   @default("")
-  author     String   @default("")
-  tags       String[] @default([])
-  createdAt  DateTime @default(now())
-  publishAt  DateTime @updatedAt
-  userId     String?
+  postId Int    @id @default(autoincrement()) @map("post_id")
+  text   String @default("")
+  author String @default("")
+  post   Post   @relation(fields: [postId], references: [postId], onDelete: Cascade, onUpdate: Cascade)
+
+  @@map("quote_posts")
 }
 
 model PostPhoto {
-  postId     Int      @id @default(autoincrement())
-  repost     Boolean  @default(false)
-  authorPost String
-  photo      String   @default("")
-  size       Int
-  tags       String[] @default([])
-  createdAt  DateTime @default(now())
-  publishAt  DateTime @updatedAt
-  userId     String?
+  postId Int    @id @default(autoincrement()) @map("post_id")
+  photo  String @default("")
+  size   Int
+  post   Post   @relation(fields: [postId], references: [postId], onDelete: Cascade, onUpdate: Cascade)
+
+  @@map("photo_posts")
 }
 
 model PostLink {
-  postId      Int      @id @default(autoincrement())
-  repost      Boolean  @default(false)
-  authorPost  String
-  link        String   @default("")
-  description String   @default("")
-  tags        String[] @default([])
-  createdAt   DateTime @default(now())
-  publishAt   DateTime @updatedAt
-  userId      String?
+  postId      Int    @id @default(autoincrement()) @map("post_id")
+  link        String @default("")
+  description String @default("")
+  post        Post   @relation(fields: [postId], references: [postId], onDelete: Cascade, onUpdate: Cascade)
+
+  @@map("links_posts")
+}
+
+model Comment {
+  commentId Int      @id @default(autoincrement()) @map("comment_id")
+  message   String
+  post      Post     @relation(fields: [postId], references: [postId])
+  postId    Int      @map("post_id")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("comments")
 }
