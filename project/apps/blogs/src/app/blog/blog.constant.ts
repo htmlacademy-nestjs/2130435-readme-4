@@ -12,11 +12,12 @@ export interface BlogQueryOptions {
   tag?: string[];
   title?: string;
   type?: BlogType;
-  sort?: 'date' | 'like' | 'disc';
+  sort?: 'date' | 'like' | 'desc';
 }
 
 export const QUERY_STANDART_LIMIT = 25;
 export const QUERY_START_PAGE = 1;
+export const DEFAULT_SORT_DIRECTION = 'desc';
 
 //TODO: нужно правильно определить тип
 export const MapTypeRdo: Record<BlogType, any> = {

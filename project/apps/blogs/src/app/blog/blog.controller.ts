@@ -1,4 +1,17 @@
-import { Controller, Param, Post, Get, Headers, Body, Query, Delete, Put, HttpCode, HttpStatus } from "@nestjs/common";
+import {
+  Controller,
+  Param,
+  Post,
+  Get,
+  Headers,
+  Body,
+  Query,
+  Delete,
+  Put,
+  HttpCode,
+  HttpStatus,
+  ParseIntPipe
+} from "@nestjs/common";
 import { BlogService } from "./blog.service";
 import { CreateBlogTypeDto } from "./dto/index.dto";
 import { BlogQueryOptions, MapTypeRdo } from "./blog.constant";
@@ -7,6 +20,7 @@ import { BlogRdo } from "./rdo/index.rdo";
 import { HttpStatusCode } from "axios";
 import { ApiResponse, ApiTags } from "@nestjs/swagger";
 import { BlogType } from "libs/shared/app-types/src/lib/blog/blog.interface";
+import {PostQuery} from "./query/post.query";
 
 @ApiTags('blogs')
 @Controller('blogs')
@@ -37,18 +51,9 @@ export class BlogController {
   })
   @Get()
   public async index(
-    @Query() page: number,
-    @Query() limit: number,
-    @Query() tag: string[],
-    @Query() title: string,
-    @Query() type: BlogType,
-    @Query() sort: 'date' | 'like' | 'disc'
+    @Query() query: PostQuery
     ): Promise<BlogRdo[]> {
-      const queryOptions: BlogQueryOptions = {
-        page, limit, tag, title, type, sort
-      };
-
-      const blogs = await this.blogService.index(queryOptions);
+      const blogs = await this.blogService.index(query);
       return blogs.map(blog => fillObject(MapTypeRdo[blog.type], blog));
   }
 
@@ -58,7 +63,7 @@ export class BlogController {
   })
   @Get(':id')
   public async show(
-    @Param('id') id: string
+    @Param('id', ParseIntPipe) id: number
   ) {
     const blog = await this.blogService.findById(id);
     return fillObject(MapTypeRdo[blog.type], blog);
@@ -71,7 +76,7 @@ export class BlogController {
   @Delete(':id')
   @HttpCode(HttpStatusCode.Ok)
   public async delete(
-    @Param('id') id: string,
+    @Param('id', ParseIntPipe) id: number,
     @Headers() headers: {userID: string}
   ) {
     await this.blogService.delete(id, headers.userID);
@@ -83,7 +88,7 @@ export class BlogController {
   })
   @Put(':id')
   public async update(
-    @Param('id') id: string,
+    @Param('id', ParseIntPipe) id: number,
     @Headers() headers: {userID: string},
     @Body() body: CreateBlogTypeDto
   ) {
@@ -98,7 +103,7 @@ export class BlogController {
   @Post([':id', 'like'])
   @HttpCode(HttpStatusCode.Ok)
   public async like(
-    @Param('id') id: string,
+    @Param('id', ParseIntPipe) id: number,
     @Headers() headers: {userID: string}
   ) {
     await this.blogService.like(id, headers.userID);
@@ -111,7 +116,7 @@ export class BlogController {
   @Delete([':id', 'like'])
   @HttpCode(HttpStatusCode.Ok)
   public async dislike(
-    @Param('id') id: string,
+    @Param('id', ParseIntPipe) id: number,
     @Headers() headers: {userID: string}
   ) {
     await this.blogService.dislike(id, headers.userID);

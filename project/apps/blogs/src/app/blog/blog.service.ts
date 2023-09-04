@@ -6,6 +6,7 @@ import { BlogEntity } from "./blog.entity";
 import dayjs from "dayjs";
 import { BlogError, BlogQueryOptions } from "./blog.constant";
 import { Blog } from "@project/shared/app-types";
+import {PostQuery} from "./query/post.query";
 
 @Injectable()
 export class BlogService {
@@ -46,15 +47,15 @@ export class BlogService {
     }
   }
 
-  public async index(options?: BlogQueryOptions) {
-    return this.blogRepository.indexSearch(options);
+  public async index(query?: PostQuery) {
+    return this.blogRepository.indexSearch(query);
   }
 
-  public async findById(id: string) {
+  public async findById(id: number) {
     return this.blogRepository.findById(id);
   }
 
-  public async delete(id: string, userID: string) {
+  public async delete(id: number, userID: string) {
     const isVerify = (await this.blogRepository.findById(id)).authorId === userID;
     if (!isVerify) {
       throw new ConflictException(BlogError.NoAccess);
@@ -63,7 +64,7 @@ export class BlogService {
     return this.blogRepository.destroy(id);
   }
 
-  public async update(id: string, userID: string, body: CreateBlogTypeDto) {
+  public async update(id: number, userID: string, body: CreateBlogTypeDto) {
     const oldBlog = await this.blogRepository.findById(id);
     const isVerify = oldBlog.authorId === userID;
     if (!isVerify) {
@@ -79,11 +80,11 @@ export class BlogService {
     return this.blogRepository.update(id, updateBlog);
   }
 
-  public async like(id: string, userID: string) {
+  public async like(id: number, userID: string) {
     return await this.blogRepository.like(id, userID);
   }
 
-  public async dislike(id: string, userID: string) {
+  public async dislike(id: number, userID: string) {
     return await this.blogRepository.dislike(id, userID);
   }
 
