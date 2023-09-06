@@ -31,7 +31,7 @@ export interface NotifyConfig {
     user: string;
     password: string;
     from: string;
-  }
+  },
 }
 
 export default registerAs('application', (): NotifyConfig => {

@@ -20,3 +20,6 @@ export * from './lib/notify/subscriber.interface';
 //Rabbit routing
 export * from './lib/notify/rabbit-routing.enum';
 export * from './lib/notify/rabbit-config.interface';
+
+// Like
+export * from './lib/blog/like.interface';

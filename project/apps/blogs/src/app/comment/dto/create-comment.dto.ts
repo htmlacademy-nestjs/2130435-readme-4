@@ -1,6 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
 
-export class createCommentDto {
+export class CreateCommentDto {
   @ApiProperty({
     description: 'Comment unique id',
     example: '123fsfrfxasECCEd21e',
@@ -11,5 +11,5 @@ export class createCommentDto {
     description: 'Comment text',
     example: 'lorem ipsum',
   })
-  text: string;
+  message: string;
 }

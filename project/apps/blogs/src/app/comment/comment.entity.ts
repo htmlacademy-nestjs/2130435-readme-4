@@ -6,8 +6,6 @@ export class CommentEntity extends Entity<Comment> {
   text: string;
   blogId: string;
   authorId: string;
-  createdAt: Date;
-  updatedAt: Date;
 
   constructor(comment: Comment) {
     super(comment);

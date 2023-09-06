@@ -1,41 +1,33 @@
 import {ApiResponse, ApiTags} from "@nestjs/swagger";
-import {Controller, Delete, Headers, HttpCode, HttpStatus, Param, ParseIntPipe, Post} from "@nestjs/common";
-import {HttpStatusCode} from "axios";
-import {BlogService} from "../blog/blog.service";
+import {Controller, Get, HttpStatus, Param, Post, Req} from "@nestjs/common";
+import {LikesService} from "./like.service";
+import {fillObject} from "@project/util/util-core";
+import {LikeRdo} from "./rdo/like.rdo";
+import {RequestWithUserPayload} from "@project/shared/app-types";
 
 @ApiTags('blogs')
 @Controller('likes')
-export class BlogController {
+export class LikesController {
   constructor(
-    // TODO: заменить на сервис лайков
-    private readonly blogService: BlogService
-  ) {
+    private readonly likesService: LikesService,
+  ) {}
+
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: "Likes has been successfully changed."
+  })
+  @Post('/:postId')
+  public async changeLikeStatus(@Param('postId') id: number, @Req() { user }: RequestWithUserPayload ) {
+    const newLike = await this.likesService.changePostLike(id, user.sub);
+    return fillObject(LikeRdo, newLike);
   }
 
   @ApiResponse({
     status: HttpStatus.OK,
-    description: 'Blog has been successfully liked.',
   })
-  @Post([':id'])
-  @HttpCode(HttpStatusCode.Ok)
-  public async like(
-    @Param('id', ParseIntPipe) id: number,
-    @Headers() headers: {userID: string}
-  ) {
-    await this.blogService.like(id, headers.userID);
+  @Get('/:postId')
+  public async getLikes(@Param('postId') id: number) {
+    const likeInfo = await this.likesService.findByPostId(id);
+    return fillObject(LikeRdo, likeInfo);
   }
-
-  @ApiResponse({
-    status: HttpStatus.OK,
-    description: 'Blog has been successfully disliked.',
-  })
-  @Delete([':id'])
-  @HttpCode(HttpStatusCode.Ok)
-  public async dislike(
-    @Param('id', ParseIntPipe) id: number,
-    @Headers() headers: {userID: string}
-  ) {
-    await this.blogService.dislike(id, headers.userID);
-  }
-
 }

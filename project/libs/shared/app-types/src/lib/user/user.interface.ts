@@ -1,4 +1,4 @@
-import { PhotoFormat } from "../..";
+import {PhotoFormat, TokenPayload} from "../..";
 
 export type LikedBlogId = string;
 export type SubscribeUserID = string;
@@ -14,4 +14,8 @@ export interface User {
   subcribesCounter: number;
   feed: SubscribeUserID[];
   likedBlogs: LikedBlogId[];
+}
+
+export interface RequestWithUserPayload {
+  user?: TokenPayload
 }

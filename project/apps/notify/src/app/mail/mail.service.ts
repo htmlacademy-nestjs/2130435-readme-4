@@ -2,8 +2,8 @@ import { Subscriber } from '@project/shared/app-types';
 import {Inject, Injectable} from '@nestjs/common';
 import { EMAIL_ADD_SUBSCRIBER_SUBJECT } from './mail.constant';
 import { MailerService } from '@nestjs-modules/mailer';
-import {ConfigType} from "dayjs";
 import {notifyConfig} from "@project/config/config-notify";
+import {ConfigType} from "@nestjs/config";
 
 @Injectable()
 export class MailService {
