@@ -1,5 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { BlogType, LikesMap } from "libs/shared/app-types/src/lib/blog/blog.interface";
+import {BlogType, LikesMap, TagType} from "libs/shared/app-types/src/lib/blog/blog.interface";
 
 export class CreateBlogTemplateDto {
 
@@ -16,10 +16,9 @@ export class CreateBlogTemplateDto {
   type: BlogType;
 
   @ApiProperty({
-    description: 'Blog tags',
-    example: '["2023", "dogs"]',
+    example: '[{id: number, title: cat}]',
   })
-  tags: string[];
+  tags: TagType[];
 
   @ApiProperty({
     description: 'Blog published status',

@@ -1,5 +1,4 @@
 import { PhotoFormat } from "./photo-format.type";
-import { Comment } from "../comment/comment.interface";
 
 export type BlogType = 'video' | 'text' | 'quote' | 'photo' | 'link';
 
@@ -7,49 +6,44 @@ export type BlogType = 'video' | 'text' | 'quote' | 'photo' | 'link';
 type UserId = string;
 export type LikesMap = Record<UserId, true>
 
+export type TagType = {
+  tagId: number;
+  title: string;
+}
+
 export interface BlogTemplate {
   _id?: string;
   authorId: string;
   creatorId: string;
-  type?: BlogType;
-  tags: string[];
+  tags: TagType[];
+  type: BlogType;
   createdAt: Date;
-  isPublished: boolean;
   publicAt: Date;
   updatedAt: Date;
-  isRepost: boolean;
-  likesCounter: number;
-  comments: Comment[];
-  likes: LikesMap
 }
 
 export interface VideoBlog extends BlogTemplate {
-  type: "video";
-  title: string;
-  videoLink: string;
+  title?: string;
+  videoLink?: string;
 }
 
 export interface TextBlog extends BlogTemplate {
-  type: "text";
-  title: string;
-  announcement: string;
-  text: string;
+  title?: string;
+  announcement?: string;
+  text?: string;
 }
 
 export interface QuoteBlog extends BlogTemplate {
-  type: "quote";
-  quote: string;
-  authorQuote: string;
+  quote?: string;
+  authorQuote?: string;
 }
 
 export interface PhotoBlog extends BlogTemplate {
-  type: "photo";
-  photo: PhotoFormat;
-  photoSize: string;
+  photo?: PhotoFormat;
+  photoSize?: string;
 }
 
 export interface LinkBlog extends BlogTemplate {
-  type: "link";
-  link: string;
-  description: string;
+  link?: string;
+  description?: string;
 }

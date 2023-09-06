@@ -1,11 +1,10 @@
-import { RandomUUIDOptions } from "crypto";
-import { PhotoFormat } from "../..";
+import {PhotoFormat, TokenPayload} from "../..";
 
 export type LikedBlogId = string;
 export type SubscribeUserID = string;
 
 export interface User {
-  _id?: string | RandomUUIDOptions;
+  _id?: string;
   email: string;
   username: string;
   passwordHash: string;
@@ -15,4 +14,8 @@ export interface User {
   subcribesCounter: number;
   feed: SubscribeUserID[];
   likedBlogs: LikedBlogId[];
+}
+
+export interface RequestWithUserPayload {
+  user?: TokenPayload
 }

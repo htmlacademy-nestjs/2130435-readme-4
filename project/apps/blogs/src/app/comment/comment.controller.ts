@@ -1,55 +1,64 @@
-import { Body, Controller, Delete, Get, Headers, HttpCode, HttpStatus, Param, Post } from "@nestjs/common";
-import { createCommentDto } from "./dto/create-comment.dto";
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  HttpStatus,
+  Param,
+  Post, Query,
+  Req,
+  UseGuards
+} from "@nestjs/common";
+import { CreateCommentDto } from "./dto/create-comment.dto";
 import { fillObject } from "@project/util/util-core";
 import { CommentRdo } from "./rdo/comment.rdo";
 import { CommentService } from "./comment.service";
-import { HttpStatusCode } from "axios";
 import { ApiResponse, ApiTags } from "@nestjs/swagger";
+import {JwtAuthGuard} from "@project/shared/shared-guards";
+import {RequestWithUserPayload} from "@project/shared/app-types";
+import {CommentQuery} from "./query/comment.query";
 
 @ApiTags('comments')
-@Controller('blogs')
+@Controller('comments')
 export class CommentController {
   constructor(
-    private readonly commentService: CommentService
+    private readonly commentsService: CommentService
   ) {}
 
   @ApiResponse({
-    status: HttpStatus.CREATED,
-    description: 'Comment for blog post has been successfully created.',
+    status:HttpStatus.CREATED,
+    description: 'Comment for blog post has been successfully created.'
   })
-  @Post([':id', 'comments'])
-  public async create(
-    @Param('id') id: string,
-    @Headers() headers: {userID: string},
-    @Body() body: createCommentDto
-  ) {
-    const newComment = await this.commentService.create(id, headers.userID, body);
+  @UseGuards(JwtAuthGuard)
+  @Post(':id')
+  public async create(@Param('commentId') id: number, @Body() dto: CreateCommentDto, @Req() {user}:RequestWithUserPayload) {
+    const userId = user.sub;
+    const newComment = await this.commentsService.createComment(id, dto, userId);
     return fillObject(CommentRdo, newComment);
   }
 
   @ApiResponse({
+    type: CommentRdo,
     status: HttpStatus.OK,
-    description: 'Passed a list of comments by blog id.',
   })
-  @Get([':id', 'comments'])
-  public async index(
-    @Param('id') id: string,
-  ) {
-    const comments = await this.commentService.indexComments(id);
-    return comments.map(comment => fillObject(CommentRdo, comment));
+  @ApiResponse({
+    status: HttpStatus.NOT_FOUND,
+    description: 'Comment not found.'
+  })
+  @Get([':postId'])
+  public async showByPostId(@Param('postId') id: number, @Query() query:CommentQuery) {
+    const comments = await this.commentsService.getComments(query);
+    return fillObject(CommentRdo, comments);
   }
 
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'Comment for blog post has been successfully deleted.',
   })
-  @Delete([':id', 'comments', ':commentId'])
-  @HttpCode(HttpStatusCode.Ok)
-  public async delete(
-    @Param('id') id: string,
-    @Param('commentId') commentId: string,
-    @Headers() headers: {userID: string}
-  ) {
-    await this.commentService.deleteComment(id,commentId, headers.userID);
+  @UseGuards(JwtAuthGuard)
+  @Delete(([':commentId']))
+  public async remove( @Param('commentId') id: number, @Req() {user}:RequestWithUserPayload) {
+    const userId = user.sub;
+    return await this.commentsService.deleteComment(id, userId);
   }
 }

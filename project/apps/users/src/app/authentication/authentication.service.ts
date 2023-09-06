@@ -5,11 +5,15 @@ import { AuthUserError } from './authentication.constant';
 import {LoginUserDto} from "./dto/login-user.dto";
 import {CreateUserDto} from "./dto/create-user.dto";
 import {UserMongoDBRepository} from "../user/user-mongodb.repository";
+import {ConfigService} from "@nestjs/config";
+import {JwtService} from "@nestjs/jwt";
+import {TokenPayload, User} from "@project/shared/app-types";
 
 @Injectable()
 export class AuthenticationService {
   constructor(
-    private readonly userRepository: UserMongoDBRepository
+    private readonly userRepository: UserMongoDBRepository,
+    private readonly jwtService: JwtService,
   ) {}
 
   public async register(dto: CreateUserDto) {
@@ -58,6 +62,19 @@ export class AuthenticationService {
   public async getUser(id: string) {
     return this.userRepository.findById(id);
   }
+
+  public async createUserToken(user: User) {
+    const payload: TokenPayload = {
+      sub: user._id,
+      email: user.email,
+      username: user.username,
+    };
+
+    return {
+      accessToken: await this.jwtService.signAsync(payload),
+    }
+  }
+
 
   //TODO: нужен рефактор после введения JWT токена
   public async changePassword(email: string, passwordOld: string, newPassword: string) {

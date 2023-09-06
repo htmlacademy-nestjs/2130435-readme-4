@@ -6,12 +6,15 @@ import { fillObject } from '@project/util/util-core';
 import { LoggedUserRdo } from './rdo/logged-user.rdo';
 import { LoginUserDto } from './dto/login-user.dto';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
+import {MongoidValidationPipe} from "@project/shared/shared-pipes";
+import {NotifyService} from "../notify/notify.service";
 
 @ApiTags('authentication')
 @Controller('users')
 export class AuthenticationController {
   constructor(
-    private readonly authService: AuthenticationService
+    private readonly authService: AuthenticationService,
+    private readonly notifyService: NotifyService,
   ) {}
 
   @ApiResponse({
@@ -21,6 +24,8 @@ export class AuthenticationController {
   @Post('register')
   public async create(@Body() dto: CreateUserDto) {
     const newUser = await this.authService.register(dto);
+    const { email, username } = newUser;
+    await this.notifyService.registerSubscriber({ email, username })
     return fillObject(UserRdo, newUser);
   }
 
@@ -36,7 +41,8 @@ export class AuthenticationController {
   @Post('login')
   public async login(@Body() dto: LoginUserDto) {
     const user = await this.authService.verifyUser(dto);
-    return fillObject(LoggedUserRdo, user);
+    const loggedUser = await this.authService.createUserToken(user);
+    return fillObject(LoggedUserRdo, Object.assign(user, loggedUser));
   }
 
   @ApiResponse({
@@ -45,7 +51,7 @@ export class AuthenticationController {
     description: 'User found'
   })
   @Get(':id')
-  public async show(@Param('id') id: string) {
+  public async show(@Param('id', MongoidValidationPipe) id: string) {
     const existUser = await this.authService.getUser(id);
     return fillObject(UserRdo, existUser);
   }
