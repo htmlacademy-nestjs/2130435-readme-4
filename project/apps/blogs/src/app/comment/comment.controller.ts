@@ -1,10 +1,11 @@
-import { Body, Controller, Delete, Get, Headers, HttpCode, HttpStatus, Param, Post } from "@nestjs/common";
+import {Body, Controller, Delete, Get, Headers, HttpCode, HttpStatus, Param, Post, UseGuards} from "@nestjs/common";
 import { createCommentDto } from "./dto/create-comment.dto";
 import { fillObject } from "@project/util/util-core";
 import { CommentRdo } from "./rdo/comment.rdo";
 import { CommentService } from "./comment.service";
 import { HttpStatusCode } from "axios";
 import { ApiResponse, ApiTags } from "@nestjs/swagger";
+import {JwtAuthGuard} from "@project/shared/shared-guards";
 
 @ApiTags('comments')
 @Controller('blogs')
@@ -17,6 +18,7 @@ export class CommentController {
     status: HttpStatus.CREATED,
     description: 'Comment for blog post has been successfully created.',
   })
+  @UseGuards(JwtAuthGuard)
   @Post([':id', 'comments'])
   public async create(
     @Param('id') id: string,
@@ -43,6 +45,7 @@ export class CommentController {
     status: HttpStatus.OK,
     description: 'Comment for blog post has been successfully deleted.',
   })
+  @UseGuards(JwtAuthGuard)
   @Delete([':id', 'comments', ':commentId'])
   @HttpCode(HttpStatusCode.Ok)
   public async delete(

@@ -21,11 +21,12 @@ export class PostQuery {
   @IsOptional()
   public sortDirection: 'desc' | 'asc' = DEFAULT_SORT_DIRECTION;
 
-  @IsIn(['asc', 'desc'])
+  @IsIn(['like', 'date', 'name'])
   @IsOptional()
   public sortType: 'like' | 'date' | 'name';
 
-  @IsIn(['asc', 'desc'])
+
+  @IsIn(['video', 'text', 'quote', 'photo', 'link'])
   @IsOptional()
   public type: 'video' | 'text' | 'quote' | 'photo' | 'link';
 

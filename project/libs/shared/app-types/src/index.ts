@@ -10,3 +10,6 @@ export * from './lib/comment/comment.interface';
 
 // File
 export * from './lib/file/file.interface';
+
+// Token
+export * from './lib/token/token-payload.interface';

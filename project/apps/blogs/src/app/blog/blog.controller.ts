@@ -10,11 +10,11 @@ import {
   Put,
   HttpCode,
   HttpStatus,
-  ParseIntPipe
+  ParseIntPipe,
 } from "@nestjs/common";
 import { BlogService } from "./blog.service";
 import { CreateBlogTypeDto } from "./dto/index.dto";
-import { BlogQueryOptions, MapTypeRdo } from "./blog.constant";
+import { MapTypeRdo } from "./blog.constant";
 import { fillObject } from '@project/util/util-core';
 import { BlogRdo } from "./rdo/index.rdo";
 import { HttpStatusCode } from "axios";
@@ -94,32 +94,6 @@ export class BlogController {
   ) {
     const updateBlog = await this.blogService.update(id, headers.userID, body);
     return fillObject(MapTypeRdo[body.type], updateBlog);
-  }
-
-  @ApiResponse({
-    status: HttpStatus.OK,
-    description: 'Blog has been successfully liked.',
-  })
-  @Post([':id', 'like'])
-  @HttpCode(HttpStatusCode.Ok)
-  public async like(
-    @Param('id', ParseIntPipe) id: number,
-    @Headers() headers: {userID: string}
-  ) {
-    await this.blogService.like(id, headers.userID);
-  }
-
-  @ApiResponse({
-    status: HttpStatus.OK,
-    description: 'Blog has been successfully disliked.',
-  })
-  @Delete([':id', 'like'])
-  @HttpCode(HttpStatusCode.Ok)
-  public async dislike(
-    @Param('id', ParseIntPipe) id: number,
-    @Headers() headers: {userID: string}
-  ) {
-    await this.blogService.dislike(id, headers.userID);
   }
 }
 
