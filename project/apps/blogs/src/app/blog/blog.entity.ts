@@ -1,6 +1,6 @@
 import { Blog, PhotoFormat } from '@project/shared/app-types'
 import { Entity } from '@project/util/util-types'
-import {BlogType, LikesMap, TagType} from 'libs/shared/app-types/src/lib/blog/blog.interface';
+import {BlogType, TagType} from 'libs/shared/app-types/src/lib/blog/blog.interface';
 
 export class BlogEntity extends Entity<Blog> {
   _id?: string;

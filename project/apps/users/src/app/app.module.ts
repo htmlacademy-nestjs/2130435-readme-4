@@ -5,6 +5,7 @@ import { FeedModule } from './feed/feed.module';
 import { RefreshTokenModule } from './refresh-token/refresh-token.module';
 import {ConfigUsersModule, getMongooseOptions } from "@project/config/config-users";
 import {MongooseModule} from "@nestjs/mongoose";
+import {NotifyModule} from "./notify/notify.module";
 
 @Module({
   imports: [
@@ -12,6 +13,7 @@ import {MongooseModule} from "@nestjs/mongoose";
       UserModule,
       FeedModule,
       RefreshTokenModule,
+      NotifyModule,
       ConfigUsersModule,
       MongooseModule.forRootAsync(
         getMongooseOptions()
