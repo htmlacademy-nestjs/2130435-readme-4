@@ -6,7 +6,7 @@ import { fillObject } from '@project/util/util-core';
 import { BlogRdo } from "./rdo/index.rdo";
 import { HttpStatusCode } from "axios";
 import { ApiResponse, ApiTags } from "@nestjs/swagger";
-import {BlogType} from "../../../../../libs/shared/app-types/src/lib/blog/blog.interface";
+import { BlogType } from "libs/shared/app-types/src/lib/blog/blog.interface";
 
 @ApiTags('blogs')
 @Controller('blogs')
