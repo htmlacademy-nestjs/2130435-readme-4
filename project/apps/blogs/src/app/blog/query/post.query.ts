@@ -1,16 +1,12 @@
 import { IsArray, IsIn, IsNumber, IsOptional } from 'class-validator';
 import { Transform } from 'class-transformer';
-import {
-  DEFAULT_SORT_DIRECTION,
-  QUERY_STANDART_LIMIT,
-  QUERY_START_PAGE
-} from '../blog.constant';
+import {QueryDefault} from '../blog.constant';
 
 export class PostQuery {
-  @Transform(({ value } ) => +value || QUERY_STANDART_LIMIT)
+  @Transform(({ value } ) => +value || QueryDefault.Limit)
   @IsNumber()
   @IsOptional()
-  public limit = QUERY_STANDART_LIMIT;
+  public limit = QueryDefault.Limit;
 
   @Transform(({ value }) => value.split(',').map((tagId) => +tagId))
   @IsArray({})
@@ -19,7 +15,7 @@ export class PostQuery {
 
   @IsIn(['asc', 'desc'])
   @IsOptional()
-  public sortDirection: 'desc' | 'asc' = DEFAULT_SORT_DIRECTION;
+  public sortDirection: 'desc' | 'asc' = QueryDefault.Direction;
 
   @IsIn(['like', 'date', 'name'])
   @IsOptional()
@@ -32,5 +28,5 @@ export class PostQuery {
 
   @Transform(({ value }) => +value)
   @IsOptional()
-  public page: number = QUERY_START_PAGE;
+  public page: number = QueryDefault.Page;
 }
