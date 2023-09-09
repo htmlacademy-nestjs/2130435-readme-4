@@ -14,10 +14,11 @@ export interface BlogQueryOptions {
   type?: BlogType;
   sort?: 'date' | 'like' | 'desc';
 }
-
-export const QUERY_STANDART_LIMIT = 25;
-export const QUERY_START_PAGE = 1;
-export const DEFAULT_SORT_DIRECTION = 'desc';
+export enum QueryDefault {
+  Page = 1,
+  Limit = 25,
+  Direction = 'desc',
+}
 
 //TODO: нужно правильно определить тип
 export const MapTypeRdo: Record<BlogType, any> = {
